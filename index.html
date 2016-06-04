@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Learning Regular Expressions</title>
+
+    <!-- Include skewer.js as a script -->
+    <!-- <script type="text/javascript" src="http://localhost:8080/skewer"></script> -->
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,100,700,900,400italic" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="//coffeescript.org/extras/coffee-script.js"></script>
+    <script type="text/javascript" src="scripts/ace/src-noconflict/ace.js"></script>
+    <link   type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/railscasts.min.css">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+
+    <link   type="text/css"        href="styles/curiouser.css" rel="stylesheet"/>
+    <script type="text/coffeescript" src="scripts/curiouser.coffee"></script>
+  </head>
+  <body>
+    <h1>Demystifying RE:
+      <span class="subtitle">
+        Toying with Regular Expressions
+      </span>
+    </h1>
+
+    <div id="technical-side">
+      <div name="editor" id="editor"></div>
+      <div id="toolbar">
+        <button id="run-code" title="Highlight the match text... or just wait.">Show</button>
+
+        <div class="tool" title="Select various textual examples to use for searching.">
+          Text:
+          <select id="which-text" name="whichtext">
+            <!-- <option value="example">Example</option> -->
+            <option value="english">English</option>
+            <option value="english.txt">English as Text</option>
+            <option value="lorem-ipsum">Lorem Ipsum</option>
+            <option value="example.clj">Code: Clojure</option>
+            <option value="example.coffee">Code: CoffeeScript</option>
+            <option value="example.html">Code: HTML</option>
+            <option value="example.java">Code: Java</option>
+            <option value="example.js">Code: JavaScript</option>
+            <option value="example.py">Code: Python</option>
+            <option value="phone">Phone Numbers</option>
+          </select>
+        </div>
+
+        <div class="tool" title="If selected, all spaces and carriage returns are ignored. Use \s if you wish to search for whitespace. Makes it easier to format your regular expressions.">
+          <input id="whitespace" name="whitespace" type="checkbox" checked="checked"> Whitespace?
+        </div>
+
+        <div class="tool" title="If selected, upper- and lower-case letters match.">
+          <input id="insensitive" name="insensitive" type="checkbox" checked="checked"> Case Insensitive?
+        </div>
+
+      </div>
+      <div id="example-section">
+      </div>
+    </div>
+  </body>
+</html>

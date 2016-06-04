@@ -1,0 +1,152 @@
+html {
+    height: 100%;
+}
+
+body {
+    background: #eee;
+    color: #333;
+    font-family: 'Lato', sans-serif;
+    font-size: larger;
+    height: 100%;
+}
+
+iframe {
+}
+
+h1 {
+    background: #AB4FB6;
+    color: #ddd;
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 0px 20px;
+    font-weight: 900;
+}
+
+h2 {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+code {
+    color: #0088aa;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-weight: 100;
+}
+
+button {
+    font-weight: bold;
+    font-size: 21px;
+    border: 3px solid #333435;
+    border-radius: 10px;
+    background-color: #FA8044;
+    color: #333435;
+    padding: 6px;
+    margin: 6px;
+}
+
+#instructions {
+    float: left;
+    padding: 18px;
+    height: 85%;
+    width: 45%;
+    overflow: auto;
+}
+
+#editor {
+    font-size: larger;
+    padding: 8px;
+    height: 200px;
+}
+
+#toolbar {
+}
+
+.tool {
+    float: right;
+    margin-left: 40px;
+    margin-top: 12px;
+}
+.tool select {
+    text: larger;
+}
+
+table,td {
+    border: 3px solid #eee;
+    border-collapse: collapse;
+}
+th {
+    background-color: #FA8044;
+    color: #333435;
+    padding: 6px;
+}
+td {
+    padding: 3px 12px;
+    background-color: #333435;
+    color: white;
+}
+
+.dynatable-active-page {
+    background-color: #FA8044;
+}
+
+.question {
+    background-color: #def;
+    border: 3px solid #89b;
+    border-radius: 14px;
+    padding: 0 12px;
+    margin-bottom: 12px;
+}
+
+.hidden {
+    font-size: 18px;
+}
+.hidden code {
+}
+
+
+.answer {
+    font-size: 18px;
+}
+.hint {
+    background-color: #AB4FB6;
+}
+
+.decimal {
+    text-align: "." start;
+}
+.integer {
+    text-align: right;
+}
+
+.error {
+    white-space: pre-wrap;
+    font-family: monospace;
+    color: #c00;
+    margin-top: 12px;
+}
+
+#example-section {
+    margin: 0 40px;
+    line-height: 175%;
+}
+
+#example-section a {
+    color: #444;
+    text-decoration: none;
+    border-bottom: 1px dotted;
+}
+
+#example-section pre {
+    line-height: 120%;
+}
+#example-section.codify {
+    line-height: 120%;
+    white-space: pre-wrap;
+}
+
+.highlighted {
+    background-color: yellow;
+}

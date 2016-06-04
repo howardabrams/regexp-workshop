@@ -1,0 +1,376 @@
+#+TITLE:  Demystifying Regular Expressions
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   2016 Jun 02
+
+  A workshop aimed at helping to level up on regular expressions.
+
+  This session has four parts:
+
+  - Why Learn?    (The Need for regular expressions)
+  - Brief history (to show the variations)
+  - Basics
+  - Learning Workshop
+
+  We will learn the JavaScript-flavor of RegExp, but
+  the lessons should be applicable to your /favorite language/.
+
+* The Magic
+
+  I don’t expect many of you to appreciate the subtle science and
+  exact art that is the regular expression...
+
+  However, for those select few, who possess the predisposition, I
+  can teach you how to bewitch the mind and ensnare the senses. I can
+  tell you how to bottle fame, brew glory, and even put a stopper in
+  parsing US phone codes, like:
+
+  =\b(1[-\s]?)?\(?\d{3}\)?[-\s\.\/]?\d{3}[-\s\.]?\d{4}\b=
+
+* Hey Programmer, How would you?
+
+  Compare two strings for equality? Easy!
+  #+BEGIN_SRC ruby
+    stringA == stringB
+  #+END_SRC
+
+  Check if a string started with =H=? That's easy too:
+  #+BEGIN_SRC ruby :var stringA="Hello"
+    stringA[0] == 'H'
+  #+END_SRC
+
+  What if the =H= may not be capitalized?
+  #+BEGIN_SRC ruby :var stringA="hello"
+    stringA[0] == 'H' or stringA[0] == 'h'
+  #+END_SRC
+
+  What if it /starts/ with the word, =hello=?
+  #+BEGIN_SRC ruby :var stringA="Hello World"
+    stringA.start_with?('hello')
+  #+END_SRC
+
+  Case insensitive start of the word, =hello=?
+  Most languages have this option.
+
+  How about the word, =hello=, anywhere in the string?
+  #+BEGIN_SRC ruby
+    stringA.index('hello') != nil
+  #+END_SRC
+
+* But... How would you?
+
+  - Match a field as a valid 5 digit postal code? Loops?
+
+  - Match /either/ =hello=, =world= or =good-bye=?
+
+  - Trim whitespace from end of all lines in a multi-line string?
+
+  - Match =a=, or =an=, but only as a stand-alone word?
+
+  - How would you see if a string contained a valid phone number?
+    Credit card number? Email address?
+
+* Regular Expressions is Useful
+
+  [[file:xkcd.png]]
+
+  https://xkcd.com/208/
+
+* Regular Expressions is Awful
+
+  Everyone remembers this famous quote:
+
+  #+BEGIN_QUOTE
+  *Jamie Zawinski <jwz@netscape.com> wrote on Tue, 12 Aug 1997 13:16:22 -0700:*
+
+  ...
+
+  The notion that regexps are the solution to all problems is equally
+  braindead.
+
+  Just like Perl.
+
+  Some people, when confronted with a problem, think “I know,
+  I'll use regular expressions.”  Now they have two problems.
+  #+END_QUOTE
+
+* Your Toolbox
+
+  Many indispensable tools are not taught in school:
+
+  1. Mastering an editor
+  2. Version Control, ala =git=
+  3. Shell and SSH
+  4. Automated Testing
+  5. Regular Expressions
+
+  Let me answer two questions that everyone has:
+
+  - Why are they so strange looking?
+  - Why does every language implement RegExps differently?
+
+* History in 7 Parts
+
+  [[file:history-7.svg]]
+
+  (This image will be expanded by sections during the actual presentation)
+
+* History of Regular Expressions
+
+  Two take-aways:
+
+  - Like SQL, RegExp has a /mathematical/ basis
+  - Diverged as many tried to improve it
+
+  Mostly implemented the same, but each language may be missing features.
+
+* Let's Try It
+
+  Go to worksheet only: http://is.gd/regexp
+
+  Tutorial + Worksheet: http://is.gd/regexp_tutorial
+
+* Exploring our Workshop
+
+  In the top field, type: =math=
+
+  Notice the matches highlighted in yellow in the text.
+
+  Toggle the *Case Insensitive?* check box.
+
+  In the top field, type: =of math=
+
+  Why no matches? Toggle the *Whitespace?* check box.
+
+  Normally, a space matches /a space/. However, to make learning
+  regular expressions easier, our editor ignores
+  whitespace to make our expressions easier to format and read.
+
+  Leave *Whitespace?* selected.
+
+* Some Letters are Letters
+
+  To search for most letters, just type them.
+
+  (This is very similar to the =index()= function in many languages)
+
+  But some times we want to specify something like:
+  - Any character
+  - Zero or more occurrences of a character
+  - Any number (or other /types/ of character)
+  - Mark positions like beginning of a line or end of a word
+
+  These require some letters to do duty as /meta characters/.
+
+  Type the following: =r...r=  (with three period characters)
+
+  The =.= (period) stands for any other character.
+
+* Searching for Meta Characters
+
+  /What if I want to search for the word =mathematics= at the end of a sentence?/
+
+  Type: =mathematics\.=
+
+  The =\= character is Kryptonite.
+
+  Alternates the behavior of the next character, turning a /meta/
+  character with super powers, into a regular character.
+
+  /But what if I want to search for a back-slash character?/
+
+  Type: =\\=
+
+  (The Kryptonite kryptons the Kryptonite)
+
+  *That's it!*   The rest is just details.
+
+* Optionals?
+
+  Let's search for the word /student/ but allowing it to be plural.
+
+  Type: =students?=
+
+  The question mark says: /zero or one/ of the previous character.
+
+  In other words, the =s= is now /optional/.
+
+  The =*= character says: /zero or more/ of the previous character.
+
+  Type: =1.*9=
+
+  The =+= character says: /one or more/ of the previous character.
+
+  Type: =1.+9=
+
+* Or
+
+  Let's look for one of two different words.
+
+  Type: =pronounced|pronunciation=
+
+  The vertical bar says to search for the expressions on either side.
+
+* Specific Characters
+
+  Let's search for phrases like /war/ and /wor/.
+
+  Type: =w[ao]r=
+
+  Characters inside square brackets become a single character that is /or/'d
+
+  Let's search for years in the twentieth century... in other words,
+  four digits of numbers.
+
+  Type: =19[0123456789][0123456789]=
+
+  Works, but too long. Let's try again:
+
+  Type: =19[0-9][0-9]=
+
+  Better. Ranges work, but keep them simple, as they are based
+  /ordinal-values/ of each character (ASCII or Unicode).
+
+* Character Types
+
+  Ranges are seldom what we want. We want /types/.
+
+  If we want four digit numbers (or any year), we can use the
+  /krypton-powered/ =\d= that represents the /number type/.
+
+  Type: =\d\d\d\d=
+
+  *Note:* While the backslash removes the power from /meta-characters/ (like
+  the dot we saw earlier), it /adds super powers/ to some regular letters.
+
+  Remember how typing =of math= didn't work when we selected the check
+  box for /Whitespace?/
+
+  Type: =of \s math=
+
+  The =\s= turns the =s= into a super powered meta character to represent
+  /all whitespace/. Includes:
+  - normal white space
+  - carriage returns
+  - tabs
+  - non-breaking spaces
+  - any Unicode white space type
+
+  Normally written without spaces, =of\smath=, the phrase is difficult
+  to read, but knowing regular expressions give you nerd cred.
+
+* Character Behaviors
+
+  To match =math= as a /full word/, and not part of /mathematics/...
+
+  Type: =\b math \b=
+
+  This /super b/ is not an actual character, but specifies a /behavior/.
+
+  Behavior? Match only if start and end is not is not a word.
+
+  Seems like Wikipedia doesn't like the abbreviated form of /mathematics/.
+
+  Type: =\b a \b=
+
+  Type: =\b an? \b=
+
+  Let's find all articles:
+
+  Type: =\b an? \b | \b the \b=
+
+  You got this.
+
+* Counting
+
+  Since we want four digit years, just say so:
+
+  Type: =\d{4}=
+
+  Works the same as =\d\d\d\d=. Is that more obvious?
+
+  Which do you like better?
+
+  Type: =19 \d{2}=
+
+  Type: =19 \d \d=
+
+* Groupings
+
+  What if we wanted four digit years, but also year ranges?
+
+  Type: =\d{4} - \d{2}=
+
+  We have our range, but not the years. We could use the /or/ symbol.
+
+  Type: =\d{4} - \d{2} | \d{4}=
+
+  Or we could make the two digits /optional/ with the question mark.
+
+  The question mark says /zero or one/ of the following character.
+
+  To make it work with multiple characters, group it with parens.
+
+  Type: =\d{4} ( - \d{2} )?=
+
+  The =+= and the =*= characters work on groupings too.
+
+  Searching for actual parens? Escape them, via: =\(= and =\)=
+
+* Extracting Groups
+
+  Paren'd groups do double duty. You can /access/ them programmatically.
+
+  Match a four-digit year, but /extract/ the final two years.
+
+  Type: =\d{2} ( \d{2} )=
+
+  To see the grouped value, hover the mouse over any matched string, and you'll
+  see that the /first grouping/ (labeled =$1=) is the last two digits.
+
+  You could change specific years, like this string:
+
+  #+BEGIN_EXAMPLE
+  In 1941, the US retaliated and went to war with Japan.
+  #+END_EXAMPLE
+
+  To this:
+  #+BEGIN_EXAMPLE
+  In the 1900's, the US retaliated and went to war with Japan.
+  #+END_EXAMPLE
+
+  By using this JavaScript code:
+  #+BEGIN_SRC js
+    textualString.replace(/(\d{2})\d{2}/, "the $100's")
+  #+END_SRC
+
+* The Ultimate Magic Spell
+
+  Let's parse the incantation from the first slide:
+
+  #+BEGIN_EXAMPLE
+  \b(1[-\s]?)?\(?(\d{3})\)?[-\s\.\/]?(\d{3})[-\s\.]?(\d{4})\b
+  #+END_EXAMPLE
+
+  First, click the *Text:* pull-down, and select /Phone Numbers/
+
+  Let's reformat it so we can break it apart:
+
+  #+BEGIN_EXAMPLE
+  \b  (1       [-\s]?   )?  # Optional US Code 1 (with dash or space)
+  \(?                       # Optional Open Paren
+      (\d{3})               # Three digit area code
+  \)?          [-\s\.\/]?   # Optional Close Paren and other separators
+      (\d{3})  [-\s\.]?     # Three digit code with various separators
+      (\d{4})               # Final four digits
+  \b
+  #+END_EXAMPLE
+
+  We surrounded the entire expression in =\b= so that a string of 20
+  digits wouldn't be considered a part of a phone number.
+
+* Extra Credit
+
+  You are really good at this by now, so change the *Text:* pull-down
+  to your favorite programming language (I hope I have a good
+  example), and challenge yourself to highlight various expressions.

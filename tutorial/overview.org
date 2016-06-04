@@ -1,0 +1,33 @@
+#+TITLE:  Demystifying Regular Expressions
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   2016 May 06
+#+TAGS:   presentation technical
+
+* Open Source Bridge Submission
+
+  *Excerpt:*
+
+  Long ago, in the early ages of computerdom, a language was formed
+  from the primordial fires of Tartarus. The language would bind the
+  spells of textual strings and forever control them: The Regular Expression.
+
+  How about an interactive workshop for acolytes who wish to command
+  this strong magic?
+
+  *Proposal:*
+
+  For years RegExp has baffled computer engineers with its cryptic and unreadable syntax, but I have come down from the mountain with the secret of understanding to share!
+
+  This tutorial/workshop is designed for programmer who knows little about Regular Expressions but would like to know more. We'll use an online practice environment I've written to help teach the wonder and simplicity of Regular Expressions in JavaScript's implementation, but the basics will be applicable to other languages.
+
+  Together we'll cover:
+
+  - Basic syntax and meta-character escaping
+  - Character classes and what languages support them
+  - Alternatives for either-or matching
+  - Groupings for replacing
+  - Quantifications for repeating patterns
+  - Greedy and lazy matching
+
+  Follow along, and you'll be able to translate the mysteries into your programs.
