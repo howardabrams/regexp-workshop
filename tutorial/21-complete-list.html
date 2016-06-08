@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demystifying Regular Expressions</title>
+    <link rel='stylesheet' href='tutorial.css' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Volkhov:400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,100,700,900,400italic' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+    <script type='text/javascript' src='http://coffeescript.org/extras/coffee-script.js'></script>
+    <script type='text/coffeescript' src='tutorial.coffee'></script>
+  </head>
+  <body>
+    <h2 id="orgheadline21">The Complete List</h2>
+    <div class="outline-text-2" id="text-orgheadline21">
+      <p>
+        These are the special symbols supported by JavaScript taken from <a href="http://www.w3schools.com/jsref/jsref_obj_regexp.asp">w3schools.com</a>:
+      </p>
+
+      <p>
+        <b>Metacharacters</b>
+      </p>
+
+      <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+        <colgroup>
+          <col  class="org-left" />
+
+          <col  class="org-left" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="org-left"><code>.</code></td>
+            <td class="org-left">Find a single character, except newline or line terminator</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\w</code></td>
+            <td class="org-left">Find a word character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\W</code></td>
+            <td class="org-left">Find a non-word character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\d</code></td>
+            <td class="org-left">Find a digit</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\D</code></td>
+            <td class="org-left">Find a non-digit character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\s</code></td>
+            <td class="org-left">Find a whitespace character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\S</code></td>
+            <td class="org-left">Find a non-whitespace character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\b</code></td>
+            <td class="org-left">Find a match at the beginning/end of a word</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\B</code></td>
+            <td class="org-left">Find a match not at the beginning/end of a word</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\0</code></td>
+            <td class="org-left">Find a NUL character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\n</code></td>
+            <td class="org-left">Find a new line character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\f</code></td>
+            <td class="org-left">Find a form feed character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\r</code></td>
+            <td class="org-left">Find a carriage return character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\t</code></td>
+            <td class="org-left">Find a tab character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\v</code></td>
+            <td class="org-left">Find a vertical tab character</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\xxx</code></td>
+            <td class="org-left">Find the character specified by an octal number <i>xxx</i></td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\xdd</code></td>
+            <td class="org-left">Find the character specified by a hexadecimal number <i>dd</i></td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>\uxxxx</code></td>
+            <td class="org-left">Find the Unicode character specified by a hexadecimal number <i>xxxx</i></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        <b>Quantifiers</b>
+      </p>
+
+      <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+        <colgroup>
+          <col  class="org-left" />
+
+          <col  class="org-left" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="org-left"><code>n+</code></td>
+            <td class="org-left">Matches any string that contains at least one <i>n</i></td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>n*</code></td>
+            <td class="org-left">Matches any string that contains zero or more occurrences of <i>n</i></td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>n?</code></td>
+            <td class="org-left">Matches any string that contains zero or one occurrences of <i>n</i></td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>n{X}</code></td>
+            <td class="org-left">Matches any string that contains a sequence of X <i>n</i>&rsquo;s</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>n{X,Y}</code></td>
+            <td class="org-left">Matches any string that contains a sequence of X to Y <i>n</i>&rsquo;s</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>n{X,}</code></td>
+            <td class="org-left">Matches any string that contains a sequence of at least X <i>n</i>&rsquo;s</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>n$</code></td>
+            <td class="org-left">Matches any string with <i>n</i> at the end of it</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>^n</code></td>
+            <td class="org-left">Matches any string with <i>n</i> at the beginning of it</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>?=n</code></td>
+            <td class="org-left">Matches any string that is followed by a specific string <i>n</i></td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>?!n</code></td>
+            <td class="org-left">Matches any string that is not followed by a specific string <i>n</i></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        <b>Bracket Options</b>
+      </p>
+
+      <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+        <colgroup>
+          <col  class="org-left" />
+
+          <col  class="org-left" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="org-left"><code>[abc]</code></td>
+            <td class="org-left">Find any character between the brackets</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>[^abc]</code></td>
+            <td class="org-left">Find any character NOT between the brackets</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>[0-9]</code></td>
+            <td class="org-left">Find any digit between the brackets</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>[^0-9]</code></td>
+            <td class="org-left">Find any digit NOT between the brackets</td>
+          </tr>
+
+          <tr>
+            <td class="org-left"><code>(x</code> &vert; <code>y)</code></td>
+            <td class="org-left">Find any of the alternatives specified</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

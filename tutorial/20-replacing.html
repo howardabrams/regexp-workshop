@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demystifying Regular Expressions</title>
+    <link rel='stylesheet' href='tutorial.css' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Volkhov:400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,100,700,900,400italic' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+    <script type='text/javascript' src='http://coffeescript.org/extras/coffee-script.js'></script>
+    <script type='text/coffeescript' src='tutorial.coffee'></script>
+  </head>
+  <body>
+    <h2 id="orgheadline20">Extracting Groups</h2>
+    <div class="outline-text-2" id="text-orgheadline20">
+      <p>
+        Access paren&rsquo;d groups programmatically.
+      </p>
+
+      <p>
+        Match a four-digit year, but <i>extract</i> the final two years.
+      </p>
+
+      <p>
+        <span class="type-this">Type:</span> <code>\d{2} ( \d{2} )</code>
+      </p>
+
+      <p>
+        Hover mouse over a match.
+        The <i>first grouping</i> (labeled <code>$1</code>) is the last two digits.
+      </p>
+
+      <p>
+        In an editor or language, change this:
+      </p>
+
+      <pre>In 1941, the US retaliated and went to war with Japan.</pre>
+
+      <p>
+        To this:
+      </p>
+      <pre>In the 1900's, the US retaliated and went to war with Japan.</pre>
+
+      <p>
+        Using this JavaScript code:
+      </p>
+      <div class="org-src-container">
+
+        <pre class="src src-js">s.replace(<span style="color: #8abeb7;">/(\d{2})\d{2}/</span>,
+          <span style="color: #8abeb7;">"the $100's"</span>)</pre>
+      </div>
+    </div>
+  </body>
+</html>

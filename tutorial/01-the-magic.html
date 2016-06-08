@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demystifying Regular Expressions</title>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='tutorial.css' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Volkhov:400,700,400italic' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+    <script type='text/javascript' src='http://coffeescript.org/extras/coffee-script.js'></script>
+    <script type='text/coffeescript' src='tutorial.coffee'></script>
+    <style>
+     html {
+         height: 100%;
+     }
+     body {
+         height: 100%;
+         text-align: center;
+         background-color: white;
+         background-image: url("magic-titlebar-fade.jpg");
+         background-size: 100%;
+         background-repeat: no-repeat;
+         background-position: top center;
+     }
+     h2 {
+         font-family: "volkhov";
+         font-size: 112px;
+         filter: drop-shadow(8px 8px #e0c7b1);
+         margin-top: 360px;
+         display: none;
+     }
+     .outline-text-2 {
+         margin-top: 500px;
+     }
+    </style>
+    <script type="text/javascript">
+     var WindowsSize=function(){
+         var margin=Math.floor( $(window).width() * 0.4 );
+         console.log("Setting margin to", margin);
+         $("div.outline-text-2").css("margin-top", margin);
+     };
+     $(document).ready(function(){WindowsSize();});
+     $(window).resize(function(){WindowsSize();});
+    </script>
+  </head>
+  <body>
+      <h2 id="orgheadline1">The Magic</h2>
+    <div class="outline-text-2" id="text-orgheadline1">
+      <p>
+        I don’t expect many of you to appreciate the subtle science and
+        exact art that is the regular expression&#x2026;
+      </p>
+
+      <div style="background: #333; color: #6f6; font-family:monospace; border: 2px solid black; border-radius: 10px; padding:12px; text-align:center; font-size: 140%">
+        \b(1[-\s]?)?\(?\d{3}\)?[-\s\.\/]?\d{3}[-\s\.]?\d{4}\b
+      </div>
+    </div>
+  </body>
+</html>

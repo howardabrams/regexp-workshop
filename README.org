@@ -1,0 +1,18 @@
+#+TITLE:  Regular Expression Online Workshop
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   2016 Jun 07
+
+This is an web-based, client-side workshop to learn and explore how to
+write regular expressions. To explore this without downloading, I'm
+hosting this application:
+
+  Go to worksheet only: http://is.gd/regexp
+
+  Tutorial + Worksheet: http://is.gd/regexp_tutorial
+
+This project was built for [[http://opensourcebridge.org/sessions/1723][my Open Source Bridge workshop]] called
+*Demystifying Regular Expressions*. The challenge is high-lighting text
+in HTML by manipulating the HTML text, as it is easy to create regular
+expression search patterns to target the HTML code...so, pull requests
+welcome. ;-)

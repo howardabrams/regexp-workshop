@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Demystifying Regular Expressions</title>
+        <link rel='stylesheet' href='tutorial.css' type='text/css'/>
+        <link href='https://fonts.googleapis.com/css?family=Volkhov:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,100,700,900,400italic' rel='stylesheet' type='text/css'>
+        <script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+        <script type='text/javascript' src='http://coffeescript.org/extras/coffee-script.js'></script>
+        <script type='text/coffeescript' src='tutorial.coffee'></script>
+        <style type='text/css'>
+         html {
+             width: 100%;
+         }
+         body {
+             width: 100%;
+             background-image: url("magic-normal.png");
+             background-repeat: no-repeat;
+             background-position: top right;
+         }
+        </style>
+    </head>
+    <body>
+        <h2 id="orgheadline2">How would you?</h2>
+        <div class="outline-text-2" id="text-orgheadline2">
+            <p>
+                Compare two strings for equality? <span class="stage-1">Easy!</span>
+            </p>
+            <pre class="stage-1 src src-ruby">stringA == stringB</pre>
+
+            <p>
+                <span class="stage-2">Check if a string started with <code>H</code>?</span>
+                <span class="stage-3">That&rsquo;s easy too:</span>
+            </p>
+            <pre class="src src-ruby stage-3">stringA[0] == <span style="color: #8abeb7;">'H'</span></pre>
+
+            <p class="stage-4">
+                What if the <code>H</code> may not be capitalized?
+            </p>
+            <pre class="stage-5 src src-ruby">stringA[0] == <span style="color: #8abeb7;">'H'</span> <span style="color: #b5bd68;">or</span> stringA[0] == <span style="color: #8abeb7;">'h'</span></pre>
+
+            <p class="stage-6">
+                What if it <i>starts</i> with the word, <code>hello</code>?
+            </p>
+            <pre class="stage-7 src src-ruby">stringA.start_with?(<span style="color: #8abeb7;">'hello'</span>)</pre>
+
+            <p>
+                <span class="stage-8">Case insensitive start of the word, <code>hello</code>?</span>
+                <span class="stage-9">Most languages have this option.</span>
+            </p>
+
+            <p class="stage-10">
+                How about the word, <code>hello</code>, anywhere in the string?
+            </p>
+            <pre class="stage-11 src src-ruby">stringA.index(<span style="color: #8abeb7;">'hello'</span>) != <span style="color: #81a2be;">nil</span>
+            </pre>
+        </div>
+        </div>
+
+    </body>
+</html>

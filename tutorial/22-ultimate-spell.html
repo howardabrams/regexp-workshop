@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demystifying Regular Expressions</title>
+    <link rel='stylesheet' href='tutorial.css' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Volkhov:400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,100,700,900,400italic' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+    <script type='text/javascript' src='http://coffeescript.org/extras/coffee-script.js'></script>
+    <script type='text/coffeescript' src='tutorial.coffee'></script>
+  </head>
+  <body>
+    <h2 id="orgheadline22">The Ultimate Magic Spell</h2>
+    <div class="outline-text-2" id="text-orgheadline22">
+      <p>
+        Let&rsquo;s parse the incantation from the first slide:
+      </p>
+
+      <pre class="example">\b(1[-\s]?)?\(?(\d{3})\)?[-\s\.\/]?(\d{3})[-\s\.]?(\d{4})\b</pre>
+
+      <p>
+        From <b>Text:</b> pull-down, select <i>Phone Numbers</i>
+      </p>
+
+      <pre class="example">\b  (1      [-\s]?  )? # Optional US Code 1
+\(?                    # Optional Open Paren
+    (\d{3})            # Three digit area code
+\)?         [-\s\.\/]? # Optional separators
+    (\d{3}) [-\s\.]?   # Three digit code
+    (\d{4})            # Final four digits
+\b</pre>
+
+    </div>
+  </body>
+</html>

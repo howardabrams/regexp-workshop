@@ -1,0 +1,1152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-06-07 Tue 21:23 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Demystifying Regular Expressions</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Howard Abrams" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+     <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700' rel='stylesheet' type='text/css'>
+     <style type='text/css'>
+        body {
+           font-family: 'Source Sans Pro', sans-serif;
+        }
+        pre, code {
+           font-family: 'Source Code Pro', monospace;
+        }
+     </style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Demystifying Regular Expressions</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">The Magic</a></li>
+<li><a href="#orgheadline2">Hey Programmer, How would you?</a></li>
+<li><a href="#orgheadline3">But&#x2026; How would you?</a></li>
+<li><a href="#orgheadline4">Regular Expressions are Useful</a></li>
+<li><a href="#orgheadline5">Regular Expressions are Awful</a></li>
+<li><a href="#orgheadline6">Your Toolbox</a></li>
+<li><a href="#orgheadline7">History in 7 Parts</a></li>
+<li><a href="#orgheadline8">History of Regular Expressions</a></li>
+<li><a href="#orgheadline9">Let&rsquo;s Try It</a></li>
+<li><a href="#orgheadline10">Exploring our Workshop</a></li>
+<li><a href="#orgheadline11">Some Letters are Letters</a></li>
+<li><a href="#orgheadline12">Searching for Meta Characters</a></li>
+<li><a href="#orgheadline13">Optionals?</a></li>
+<li><a href="#orgheadline14">Or</a></li>
+<li><a href="#orgheadline15">Specific Characters</a></li>
+<li><a href="#orgheadline16">Character Types</a></li>
+<li><a href="#orgheadline17">Character Behaviors</a></li>
+<li><a href="#orgheadline18">Counting</a></li>
+<li><a href="#orgheadline19">Groupings</a></li>
+<li><a href="#orgheadline20">Extracting Groups</a></li>
+<li><a href="#orgheadline21">The Complete List</a></li>
+<li><a href="#orgheadline22">The Ultimate Magic Spell</a></li>
+<li><a href="#orgheadline23">Extra Credit</a></li>
+</ul>
+</div>
+</div>
+<p>
+A workshop aimed at helping to level up on regular expressions.
+</p>
+
+<p>
+This session has four parts:
+</p>
+
+<ul class="org-ul">
+<li>Why Learn?    (The Need for regular expressions)</li>
+<li>Brief history (to show the variations)</li>
+<li>Basics</li>
+<li>Learning Workshop</li>
+</ul>
+
+<p>
+We will learn the JavaScript-flavor of RegExp, but
+the lessons should be applicable to your <i>favorite language</i>.
+</p>
+
+<link href='https://fonts.googleapis.com/css?family=Volkhov:400,700,400italic' rel='stylesheet' type='text/css'>
+<style type="text/css">
+  #outline-container-orgheadline1 {
+    background-image: url("magic-titlebar-fade.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-top: 300px;
+    font-size: larger;
+  }
+  #outline-container-orgheadline1 h2, #outline-container-orgheadline1 p {
+    padding-left: 40px;
+    padding-right: 20px;
+    font-family: 'Volkhov', serif;
+  }
+</style>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">The Magic</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+I don’t expect many of you to appreciate the subtle science and
+exact art that is the regular expression&#x2026;
+</p>
+
+<p>
+However, for those select few, who possess the predisposition, I
+can teach you how to bewitch the mind and ensnare the senses. I can
+tell you how to bottle fame, brew glory, and even put a stopper in
+parsing US phone codes, like:
+</p>
+
+<div style="background: #333; color: #6f6; font-family:monospace; border: 2px solid black; border-radius: 10px; padding:12px; text-align:center; font-size: 140%">
+\b(1[-\s]?)?\(?\d{3}\)?[-\s\.\/]?\d{3}[-\s\.]?\d{4}\b
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Hey Programmer, How would you?</h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+Compare two strings for equality? Easy!
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ruby">stringA == stringB
+</pre>
+</div>
+
+<p>
+Check if a string started with <code>H</code>? That&rsquo;s easy too:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ruby">stringA[0] == <span style="color: #8abeb7;">'H'</span>
+</pre>
+</div>
+
+<p>
+What if the <code>H</code> may not be capitalized?
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ruby">stringA[0] == <span style="color: #8abeb7;">'H'</span> <span style="color: #b5bd68;">or</span> stringA[0] == <span style="color: #8abeb7;">'h'</span>
+</pre>
+</div>
+
+<p>
+What if it <i>starts</i> with the word, <code>hello</code>?
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ruby">stringA.start_with?(<span style="color: #8abeb7;">'hello'</span>)
+</pre>
+</div>
+
+<p>
+Case insensitive start of the word, <code>hello</code>?
+Most languages have this option.
+</p>
+
+<p>
+How about the word, <code>hello</code>, anywhere in the string?
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ruby">stringA.index(<span style="color: #8abeb7;">'hello'</span>) != <span style="color: #81a2be;">nil</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">But&#x2026; How would you?</h2>
+<div class="outline-text-2" id="text-orgheadline3">
+<ul class="org-ul">
+<li>Match a field as a valid 5 digit postal code? Loops?</li>
+
+<li>Match <i>either</i> <code>hello</code>, <code>world</code> or <code>good-bye</code>?</li>
+
+<li>Trim whitespace from end of all lines in a multi-line string?</li>
+
+<li>Match <code>a</code>, or <code>an</code>, but only as a stand-alone word?</li>
+
+<li>How would you see if a string contained a valid phone number?
+Credit card number? Email address?</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4">Regular Expressions are Useful</h2>
+<div class="outline-text-2" id="text-orgheadline4">
+
+<div class="figure">
+<p><img src="xkcd.png" alt="xkcd.png" />
+</p>
+</div>
+
+<p>
+<a href="https://xkcd.com/208/">https://xkcd.com/208/</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5">Regular Expressions are Awful</h2>
+<div class="outline-text-2" id="text-orgheadline5">
+<p>
+Everyone remembers this famous quote:
+</p>
+
+<div style="border: 2px solid gray; font-family: monospace; background-color: #ddd; font-size: 120%; padding: 20px; border-radius: 15px; margin-left: 40px;">
+  <div style="font-size:140%">
+    <b>Jamie Zawinski</b> <jwz@netscape.com> wrote on Tue, 12 Aug 1997 13:16:22 -0700:
+  </div>
+
+  <p>
+    ... <br/>
+
+    The notion that regexps are the solution to all problems is
+    equally braindead.
+  </p>
+
+  <p>
+    Just like Perl.
+  </p>
+
+  <p>
+    Some people, when confronted with a problem, think “I know,
+    I'll use regular expressions.” Now they have two problems.
+  </p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6">Your Toolbox</h2>
+<div class="outline-text-2" id="text-orgheadline6">
+<p>
+Many indispensable tools are not taught in school:
+</p>
+
+<ol class="org-ol">
+<li>Mastering an editor</li>
+<li>Version Control, ala <code>git</code></li>
+<li>Shell and SSH</li>
+<li>Automated Testing</li>
+<li>Regular Expressions</li>
+</ol>
+
+<p>
+Let me answer two questions that everyone has:
+</p>
+
+<ul class="org-ul">
+<li>Why are they so strange looking?</li>
+<li>Why does every language implement RegExps differently?</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7">History in 7 Parts</h2>
+<div class="outline-text-2" id="text-orgheadline7">
+
+<div class="figure">
+<p><object type="image/svg+xml" data="history-7.svg" >
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-2">
+<h2 id="orgheadline8">History of Regular Expressions</h2>
+<div class="outline-text-2" id="text-orgheadline8">
+<p>
+Two take-aways:
+</p>
+
+<ul class="org-ul">
+<li>Like SQL, RegExp has a <i>mathematical</i> basis</li>
+<li>Diverged as many tried to improve it</li>
+</ul>
+
+<p>
+Mostly implemented the same, but each language may be missing features.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9">Let&rsquo;s Try It</h2>
+<div class="outline-text-2" id="text-orgheadline9">
+<p>
+I&rsquo;ve built an online <i>Regular Expression Exploratorium</i> <br  />
+Allowing you to type expressions to high-light results in some text.
+</p>
+
+<p>
+Go to worksheet only: <a href="http://is.gd/regexp">http://is.gd/regexp</a>
+</p>
+
+<p>
+Tutorial + Worksheet: <a href="http://is.gd/regexp_tutorial">http://is.gd/regexp_tutorial</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-2">
+<h2 id="orgheadline10">Exploring our Workshop</h2>
+<div class="outline-text-2" id="text-orgheadline10">
+<p>
+The <i>top field</i> is the Regular Expression Editor. <br  />
+Text below that matches the expression will be high-lighted.
+</p>
+
+<p>
+Let&rsquo;s try it. In the top editor field, type: <code>math</code>
+</p>
+
+<p>
+The <b>Run</b> button is somewhat optional, if you wait long enough&#x2026; <br  />
+Notice the matches highlighted in yellow in the text.
+</p>
+
+<p>
+Toggle the <b>Case Insensitive?</b> check box.
+Notice the change. Most languages have a way to ignore case.
+</p>
+
+<p>
+In the top field, type: <code>of math</code>
+</p>
+
+<p>
+Why no matches? Toggle the <b>Whitespace?</b> check box.
+</p>
+
+<p>
+Normally, a space matches <i>a space</i>. However, to make learning
+regular expressions easier, our editor ignores
+whitespace to make our expressions easier to format and read.
+</p>
+
+<p>
+Leave <b>Whitespace?</b> selected.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-2">
+<h2 id="orgheadline11">Some Letters are Letters</h2>
+<div class="outline-text-2" id="text-orgheadline11">
+<p>
+To search for most letters, just type them.
+</p>
+
+<p>
+(This is very similar to the <code>index()</code> function in many languages)
+</p>
+
+<p>
+But some times we want to specify something like:
+</p>
+<ul class="org-ul">
+<li>Any character</li>
+<li>Zero or more occurrences of a character</li>
+<li>Any number (or other <i>types</i> of character)</li>
+<li>Mark positions like beginning of a line or end of a word</li>
+</ul>
+
+<p>
+These require some letters to do duty as <i>meta characters</i>.
+</p>
+
+<p>
+Type the following: <code>r...r</code>  (with three period characters)
+</p>
+
+<p>
+The <code>.</code> (period) stands for any other character.
+</p>
+
+<p>
+These are called <i>meta characters</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline12" class="outline-2">
+<h2 id="orgheadline12">Searching for Meta Characters</h2>
+<div class="outline-text-2" id="text-orgheadline12">
+<p>
+<i>What if I want to search for the word <code>mathematics</code> at the end of a sentence?</i>
+</p>
+
+<p>
+Type: <code>mathematics\.</code>
+</p>
+
+<p>
+The <code>\</code> character is Kryptonite.
+</p>
+
+<p>
+Alternates the behavior of the next character, turning a <i>meta</i>
+character with super powers, into a regular character.
+</p>
+
+<p>
+<i>But what if I want to search for a back-slash character?</i>
+</p>
+
+<p>
+Type: <code>\\</code>
+</p>
+
+<p>
+(The Kryptonite kryptons the Kryptonite)
+</p>
+
+<p>
+<b>That&rsquo;s it!</b>   The rest is just details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline13" class="outline-2">
+<h2 id="orgheadline13">Optionals?</h2>
+<div class="outline-text-2" id="text-orgheadline13">
+<p>
+Let&rsquo;s search for the word <i>student</i> but allowing it to be plural.
+</p>
+
+<p>
+Type: <code>languages?</code>
+</p>
+
+<p>
+The question mark says: <i>zero or one</i> of the previous character.
+</p>
+
+<p>
+In other words, the <code>s</code> is now <i>optional</i>.
+</p>
+
+<p>
+The <code>*</code> character says: <i>zero or more</i> of the previous character.
+</p>
+
+<p>
+Type: <code>1.*9</code>
+</p>
+
+<p>
+The <code>+</code> character says: <i>one or more</i> of the previous character.
+</p>
+
+<p>
+Type: <code>1.+9</code>
+</p>
+
+<p>
+<b>Note:</b> The <code>+</code> and <code>*</code> characters are called <i>quantifiers</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline14" class="outline-2">
+<h2 id="orgheadline14">Or</h2>
+<div class="outline-text-2" id="text-orgheadline14">
+<p>
+Let&rsquo;s look for one of two different words.
+</p>
+
+<p>
+Type: <code>pronounced|pronunciation</code>
+</p>
+
+<p>
+The vertical bar says to search for the expressions on either side.
+</p>
+
+<p>
+Type: <code>theory|theorem|theoretical</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline15" class="outline-2">
+<h2 id="orgheadline15">Specific Characters</h2>
+<div class="outline-text-2" id="text-orgheadline15">
+<p>
+Let&rsquo;s search for phrases like <i>war</i> and <i>wor</i>.
+</p>
+
+<p>
+Type: <code>w[ao]r</code>
+</p>
+
+<p>
+Characters inside square brackets become a single character that is <i>or</i>&rsquo;d
+</p>
+
+<p>
+Let&rsquo;s search for years in the twentieth century&#x2026; in other words,
+four digits of numbers.
+</p>
+
+<p>
+Type: <code>19[0123456789][0123456789]</code>
+</p>
+
+<p>
+Works, but too long. Let&rsquo;s try again:
+</p>
+
+<p>
+Type: <code>19[0-9][0-9]</code>
+</p>
+
+<p>
+Better. Ranges work, but keep them simple, as they are based
+<i>ordinal-values</i> of each character (ASCII or Unicode).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline16" class="outline-2">
+<h2 id="orgheadline16">Character Types</h2>
+<div class="outline-text-2" id="text-orgheadline16">
+<p>
+Ranges are seldom what we want. We want <i>types</i>.
+</p>
+
+<p>
+If we want four digit numbers (or any year), we can use the
+<i>krypton-powered</i> <code>\d</code> that represents the <i>number type</i>.
+</p>
+
+<p>
+Type: <code>\d\d\d\d</code>
+</p>
+
+<p>
+<b>Note:</b> While the backslash removes the power from <i>meta-characters</i> (like
+the dot we saw earlier), it <i>adds super powers</i> to some regular letters.
+</p>
+
+<p>
+Remember how typing <code>of math</code> didn&rsquo;t work when we selected the check
+box for <i>Whitespace?</i>
+</p>
+
+<p>
+Type: <code>of \s math</code>
+</p>
+
+<p>
+The <code>\s</code> turns the <code>s</code> into a super powered meta character to represent
+<i>all whitespace</i>. Includes:
+</p>
+<ul class="org-ul">
+<li>normal white space</li>
+<li>carriage returns</li>
+<li>tabs</li>
+<li>non-breaking spaces</li>
+<li>any Unicode white space type</li>
+</ul>
+
+<p>
+Normally written without spaces, <code>of\smath</code>, the phrase is difficult
+to read, but knowing regular expressions give you nerd cred.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline17" class="outline-2">
+<h2 id="orgheadline17">Character Behaviors</h2>
+<div class="outline-text-2" id="text-orgheadline17">
+<p>
+To match <code>the</code> as a <i>full word</i>, and not part of words like <i>theoretical</i>&#x2026;
+</p>
+
+<p>
+Type: <code>\b the \b</code>
+</p>
+
+<p>
+This <i>super b</i> is not an actual character, but specifies a <i>behavior</i>.
+</p>
+
+<p>
+Behavior? Matches only at word boundaries, like start and end of a word.
+</p>
+
+<p>
+Type: <code>\b a \b</code>
+</p>
+
+<p>
+Type: <code>\b an? \b</code>
+</p>
+
+<p>
+Let&rsquo;s find all articles:
+</p>
+
+<p>
+Type: <code>\b an? \b | \b the \b</code>
+</p>
+
+<p>
+You got this.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline18" class="outline-2">
+<h2 id="orgheadline18">Counting</h2>
+<div class="outline-text-2" id="text-orgheadline18">
+<p>
+Since we want four digit years, just say so:
+</p>
+
+<p>
+Type: <code>\d{4}</code>
+</p>
+
+<p>
+Works the same as <code>\d\d\d\d</code>. Is that more obvious?
+</p>
+
+<p>
+Which do you like better?
+</p>
+
+<p>
+Type: <code>19 \d{2}</code>
+</p>
+
+<p>
+Type: <code>19 \d \d</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline19" class="outline-2">
+<h2 id="orgheadline19">Groupings</h2>
+<div class="outline-text-2" id="text-orgheadline19">
+<p>
+What if we wanted four digit years, but also year ranges?
+</p>
+
+<p>
+Type: <code>\d{4} - \d{2}</code>
+</p>
+
+<p>
+We have our range, but not the years. We could use the <i>or</i> symbol.
+</p>
+
+<p>
+Type: <code>\d{4} - \d{2} | \d{4}</code>
+</p>
+
+<p>
+Or we could make the two digits <i>optional</i> with the question mark.
+</p>
+
+<p>
+The question mark says <i>zero or one</i> of the following character.
+</p>
+
+<p>
+To make it work with multiple characters, group it with parens.
+</p>
+
+<p>
+Type: <code>\d{4} ( - \d{2} )?</code>
+</p>
+
+<p>
+The <code>+</code> and the <code>*</code> characters work on groupings too.
+</p>
+
+<p>
+Searching for actual parens? Escape them, via: <code>\(</code> and <code>\)</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline20" class="outline-2">
+<h2 id="orgheadline20">Extracting Groups</h2>
+<div class="outline-text-2" id="text-orgheadline20">
+<p>
+Paren&rsquo;d groups do double duty. You can <i>access</i> them programmatically.
+</p>
+
+<p>
+Match a four-digit year, but <i>extract</i> the final two years.
+</p>
+
+<p>
+Type: <code>\d{2} ( \d{2} )</code>
+</p>
+
+<p>
+To see the grouped value, hover the mouse over any matched string, and you&rsquo;ll
+see that the <i>first grouping</i> (labeled <code>$1</code>) is the last two digits.
+</p>
+
+<p>
+You could change specific years, like this string:
+</p>
+
+<pre class="example">
+In 1941, the US retaliated and went to war with Japan.
+</pre>
+
+<p>
+To this:
+</p>
+<pre class="example">
+In the 1900's, the US retaliated and went to war with Japan.
+</pre>
+
+<p>
+By using this JavaScript code:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">textualString.replace(<span style="color: #8abeb7;">/(\d{2})\d{2}/</span>, <span style="color: #8abeb7;">"the $100's"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline21" class="outline-2">
+<h2 id="orgheadline21">The Complete List</h2>
+<div class="outline-text-2" id="text-orgheadline21">
+<p>
+These are the special symbols supported by JavaScript taken from <a href="http://www.w3schools.com/jsref/jsref_obj_regexp.asp">w3schools.com</a>:
+</p>
+
+<p>
+<b>Metacharacters</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>.</code></td>
+<td class="org-left">Find a single character, except newline or line terminator</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\w</code></td>
+<td class="org-left">Find a word character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\W</code></td>
+<td class="org-left">Find a non-word character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\d</code></td>
+<td class="org-left">Find a digit</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\D</code></td>
+<td class="org-left">Find a non-digit character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\s</code></td>
+<td class="org-left">Find a whitespace character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\S</code></td>
+<td class="org-left">Find a non-whitespace character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\b</code></td>
+<td class="org-left">Find a match at the beginning/end of a word</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\B</code></td>
+<td class="org-left">Find a match not at the beginning/end of a word</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\0</code></td>
+<td class="org-left">Find a NUL character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\n</code></td>
+<td class="org-left">Find a new line character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\f</code></td>
+<td class="org-left">Find a form feed character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\r</code></td>
+<td class="org-left">Find a carriage return character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\t</code></td>
+<td class="org-left">Find a tab character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\v</code></td>
+<td class="org-left">Find a vertical tab character</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\xxx</code></td>
+<td class="org-left">Find the character specified by an octal number <i>xxx</i></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\xdd</code></td>
+<td class="org-left">Find the character specified by a hexadecimal number <i>dd</i></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\uxxxx</code></td>
+<td class="org-left">Find the Unicode character specified by a hexadecimal number <i>xxxx</i></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>Quantifiers</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>n+</code></td>
+<td class="org-left">Matches any string that contains at least one <i>n</i></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>n*</code></td>
+<td class="org-left">Matches any string that contains zero or more occurrences of <i>n</i></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>n?</code></td>
+<td class="org-left">Matches any string that contains zero or one occurrences of <i>n</i></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>n{X}</code></td>
+<td class="org-left">Matches any string that contains a sequence of X <i>n</i>&rsquo;s</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>n{X,Y}</code></td>
+<td class="org-left">Matches any string that contains a sequence of X to Y <i>n</i>&rsquo;s</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>n{X,}</code></td>
+<td class="org-left">Matches any string that contains a sequence of at least X <i>n</i>&rsquo;s</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>n$</code></td>
+<td class="org-left">Matches any string with <i>n</i> at the end of it</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>^n</code></td>
+<td class="org-left">Matches any string with <i>n</i> at the beginning of it</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>?=n</code></td>
+<td class="org-left">Matches any string that is followed by a specific string <i>n</i></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>?!n</code></td>
+<td class="org-left">Matches any string that is not followed by a specific string <i>n</i></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>Bracket Options</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>[abc]</code></td>
+<td class="org-left">Find any character between the brackets</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>[^abc]</code></td>
+<td class="org-left">Find any character NOT between the brackets</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>[0-9]</code></td>
+<td class="org-left">Find any digit between the brackets</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>[^0-9]</code></td>
+<td class="org-left">Find any digit NOT between the brackets</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>(x</code> &vert; <code>y)</code></td>
+<td class="org-left">Find any of the alternatives specified</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgheadline22" class="outline-2">
+<h2 id="orgheadline22">The Ultimate Magic Spell</h2>
+<div class="outline-text-2" id="text-orgheadline22">
+<p>
+Let&rsquo;s parse the incantation from the first slide:
+</p>
+
+<pre class="example">
+\b(1[-\s]?)?\(?(\d{3})\)?[-\s\.\/]?(\d{3})[-\s\.]?(\d{4})\b
+</pre>
+
+<p>
+First, click the <b>Text:</b> pull-down, and select <i>Phone Numbers</i>
+</p>
+
+<p>
+Let&rsquo;s reformat it so we can break it apart:
+</p>
+
+<pre class="example">
+\b  (1       [-\s]?   )?  # Optional US Code 1 (with dash or space)
+\(?                       # Optional Open Paren
+    (\d{3})               # Three digit area code
+\)?          [-\s\.\/]?   # Optional Close Paren and other separators
+    (\d{3})  [-\s\.]?     # Three digit code with various separators
+    (\d{4})               # Final four digits
+\b
+</pre>
+
+<p>
+We surrounded the entire expression in <code>\b</code> so that a string of 20
+digits wouldn&rsquo;t be considered a part of a phone number.
+</p>
+
+<p>
+Notice that the initial US code is optional, and that it can be a 1
+or a 1 followed by either a dash or a space. If set, it will be
+available as the <i>first group</i>.
+</p>
+
+<p>
+The area code may <i>optionally</i> be surrounded with parens, and these need to be
+<i>escaped</i> with initial backslashes. The area code will be the second
+group.
+</p>
+
+<p>
+The 7 digit phone number is broken into two separate groups, but by
+now, you should know enough to change it so that it is in only one group.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline23" class="outline-2">
+<h2 id="orgheadline23">Extra Credit</h2>
+<div class="outline-text-2" id="text-orgheadline23">
+<p>
+You are really good at this by now, so change the <b>Text:</b> pull-down
+to your favorite programming language (I hope I have a good
+example), and challenge yourself to highlight various expressions.
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

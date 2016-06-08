@@ -2,6 +2,7 @@
 #+AUTHOR: Howard Abrams
 #+EMAIL:  howard.abrams@gmail.com
 #+DATE:   2016 Jun 02
+#+OPTIONS: toc:t ^:nil ':t
 
   A workshop aimed at helping to level up on regular expressions.
 
@@ -25,7 +26,11 @@
   tell you how to bottle fame, brew glory, and even put a stopper in
   parsing US phone codes, like:
 
-  =\b(1[-\s]?)?\(?\d{3}\)?[-\s\.\/]?\d{3}[-\s\.]?\d{4}\b=
+  #+BEGIN_HTML
+  <div style="background: #333; color: #6f6; font-family:monospace; border: 2px solid black; border-radius: 10px; padding:12px; text-align:center; font-size: 140%">
+  \b(1[-\s]?)?\(?\d{3}\)?[-\s\.\/]?\d{3}[-\s\.]?\d{4}\b
+  </div>
+  #+END_HTML
 
 * Hey Programmer, How would you?
 
@@ -70,29 +75,39 @@
   - How would you see if a string contained a valid phone number?
     Credit card number? Email address?
 
-* Regular Expressions is Useful
+* Regular Expressions are Useful
 
   [[file:xkcd.png]]
 
   https://xkcd.com/208/
 
-* Regular Expressions is Awful
+* Regular Expressions are Awful
 
   Everyone remembers this famous quote:
 
-  #+BEGIN_QUOTE
-  *Jamie Zawinski <jwz@netscape.com> wrote on Tue, 12 Aug 1997 13:16:22 -0700:*
+  #+BEGIN_HTML
+  <div style="border: 2px solid gray; font-family: monospace; background-color: #ddd; font-size: 120%; padding: 20px; border-radius: 15px; margin-left: 40px;">
+    <div style="font-size:140%">
+      <b>Jamie Zawinski</b> <jwz@netscape.com> wrote on Tue, 12 Aug 1997 13:16:22 -0700:
+    </div>
 
-  ...
+    <p>
+      ... <br/>
 
-  The notion that regexps are the solution to all problems is equally
-  braindead.
+      The notion that regexps are the solution to all problems is
+      equally braindead.
+    </p>
 
-  Just like Perl.
+    <p>
+      Just like Perl.
+    </p>
 
-  Some people, when confronted with a problem, think “I know,
-  I'll use regular expressions.”  Now they have two problems.
-  #+END_QUOTE
+    <p>
+      Some people, when confronted with a problem, think “I know,
+      I'll use regular expressions.” Now they have two problems.
+    </p>
+  </div>
+  #+END_HTML
 
 * Your Toolbox
 
@@ -113,8 +128,6 @@
 
   [[file:history-7.svg]]
 
-  (This image will be expanded by sections during the actual presentation)
-
 * History of Regular Expressions
 
   Two take-aways:
@@ -126,17 +139,25 @@
 
 * Let's Try It
 
+  I've built an online /Regular Expression Exploratorium/ \\
+  Allowing you to type expressions to high-light results in some text.
+
   Go to worksheet only: http://is.gd/regexp
 
   Tutorial + Worksheet: http://is.gd/regexp_tutorial
 
 * Exploring our Workshop
 
-  In the top field, type: =math=
+  The /top field/ is the Regular Expression Editor. \\
+  Text below that matches the expression will be high-lighted.
 
+  Let's try it. In the top editor field, type: =math=
+
+  The *Run* button is somewhat optional, if you wait long enough... \\
   Notice the matches highlighted in yellow in the text.
 
   Toggle the *Case Insensitive?* check box.
+  Notice the change. Most languages have a way to ignore case.
 
   In the top field, type: =of math=
 
@@ -166,6 +187,8 @@
 
   The =.= (period) stands for any other character.
 
+  These are called /meta characters/.
+
 * Searching for Meta Characters
 
   /What if I want to search for the word =mathematics= at the end of a sentence?/
@@ -189,7 +212,7 @@
 
   Let's search for the word /student/ but allowing it to be plural.
 
-  Type: =students?=
+  Type: =languages?=
 
   The question mark says: /zero or one/ of the previous character.
 
@@ -203,6 +226,8 @@
 
   Type: =1.+9=
 
+  *Note:* The =+= and =*= characters are called /quantifiers/.
+
 * Or
 
   Let's look for one of two different words.
@@ -210,6 +235,8 @@
   Type: =pronounced|pronunciation=
 
   The vertical bar says to search for the expressions on either side.
+
+  Type: =theory|theorem|theoretical=
 
 * Specific Characters
 
@@ -261,15 +288,13 @@
 
 * Character Behaviors
 
-  To match =math= as a /full word/, and not part of /mathematics/...
+  To match =the= as a /full word/, and not part of words like /theoretical/...
 
-  Type: =\b math \b=
+  Type: =\b the \b=
 
   This /super b/ is not an actual character, but specifies a /behavior/.
 
-  Behavior? Match only if start and end is not is not a word.
-
-  Seems like Wikipedia doesn't like the abbreviated form of /mathematics/.
+  Behavior? Matches only at word boundaries, like start and end of a word.
 
   Type: =\b a \b=
 
@@ -344,6 +369,52 @@
     textualString.replace(/(\d{2})\d{2}/, "the $100's")
   #+END_SRC
 
+* The Complete List
+
+  These are the special symbols supported by JavaScript taken from [[http://www.w3schools.com/jsref/jsref_obj_regexp.asp][w3schools.com]]:
+
+  *Metacharacters*
+
+  | =.=      | Find a single character, except newline or line terminator        |
+  | =\w=     | Find a word character                                             |
+  | =\W=     | Find a non-word character                                         |
+  | =\d=     | Find a digit                                                      |
+  | =\D=     | Find a non-digit character                                        |
+  | =\s=     | Find a whitespace character                                       |
+  | =\S=     | Find a non-whitespace character                                   |
+  | =\b=     | Find a match at the beginning/end of a word                       |
+  | =\B=     | Find a match not at the beginning/end of a word                   |
+  | =\0=     | Find a NUL character                                              |
+  | =\n=     | Find a new line character                                         |
+  | =\f=     | Find a form feed character                                        |
+  | =\r=     | Find a carriage return character                                  |
+  | =\t=     | Find a tab character                                              |
+  | =\v=     | Find a vertical tab character                                     |
+  | =\xxx=   | Find the character specified by an octal number /xxx/               |
+  | =\xdd=   | Find the character specified by a hexadecimal number /dd/           |
+  | =\uxxxx= | Find the Unicode character specified by a hexadecimal number /xxxx/ |
+
+  *Quantifiers*
+
+  | =n+=     | Matches any string that contains at least one /n/                |
+  | =n*=     | Matches any string that contains zero or more occurrences of /n/ |
+  | =n?=     | Matches any string that contains zero or one occurrences of /n/  |
+  | =n{X}=   | Matches any string that contains a sequence of X /n/'s           |
+  | =n{X,Y}= | Matches any string that contains a sequence of X to Y /n/'s      |
+  | =n{X,}=  | Matches any string that contains a sequence of at least X /n/'s  |
+  | =n$=     | Matches any string with /n/ at the end of it                     |
+  | =^n=     | Matches any string with /n/ at the beginning of it               |
+  | =?=n=    | Matches any string that is followed by a specific string /n/     |
+  | =?!n=    | Matches any string that is not followed by a specific string /n/ |
+
+  *Bracket Options*
+
+  | =[abc]=       | Find any character between the brackets     |
+  | =[^abc]=      | Find any character NOT between the brackets |
+  | =[0-9]=       | Find any digit between the brackets         |
+  | =[^0-9]=      | Find any digit NOT between the brackets     |
+  | =(x= \vert =y)= | Find any of the alternatives specified      |
+
 * The Ultimate Magic Spell
 
   Let's parse the incantation from the first slide:
@@ -368,6 +439,17 @@
 
   We surrounded the entire expression in =\b= so that a string of 20
   digits wouldn't be considered a part of a phone number.
+
+  Notice that the initial US code is optional, and that it can be a 1
+  or a 1 followed by either a dash or a space. If set, it will be
+  available as the /first group/.
+
+  The area code may /optionally/ be surrounded with parens, and these need to be
+  /escaped/ with initial backslashes. The area code will be the second
+  group.
+
+  The 7 digit phone number is broken into two separate groups, but by
+  now, you should know enough to change it so that it is in only one group.
 
 * Extra Credit
 

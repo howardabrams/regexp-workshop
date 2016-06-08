@@ -1,6 +1,7 @@
 editor = null
 content = null
 gotcode = false
+triggered = false
 
 loadText = ->
         name = $("#which-text").val()
@@ -29,9 +30,13 @@ displayContent = (text, codep = gotcode) ->
                 $("#example-section").html(text)
         gotcode = codep
 
+formatTitle = (e, idx) ->
+        i = idx + 1
+        "$#{i}: #{e}"
+
 matchedReplacement = (match, groups..., idx, fulltext) ->
-        console.log("Matched:", match, "Groups:", groups, "Index:", idx)
-        title = ("$#{idx}: #{e}" for e,idx in groups).join(" ")
+        # console.log("Matched:", match, "Groups:", groups, "Index:", idx)
+        title = (formatTitle(e,idx) for e,idx in groups).join(" ")
         "<span class='highlighted' title='#{title}'>#{match}</span>"
 
         # The following, while more idiomatic jQuery, screws up
@@ -39,6 +44,14 @@ matchedReplacement = (match, groups..., idx, fulltext) ->
         # $("<span>").addClass("highlighted").attr("title", title).text(match).prop("outerHTML")
 
 # Triggered by the "Run" button to execute the SQL and display the results.
+runCode_Button = ->
+        triggered = true
+        runCode()
+
+runCode_Auto = ->
+        triggered = false
+        runCode()
+
 runCode = ->
         ws = $("#whitespace").is(":checked")
         ci = $("#insensitive").is(":checked")
@@ -56,7 +69,10 @@ runCode = ->
                         patt = new RegExp(escapeHTML(re), (if ci then "gi" else "g"))
                         displayContent( content.replace(patt, matchedReplacement) )
         catch error
-                alert(error)
+                if triggered
+                        alert(error)
+                else
+                        console.log(error)
 
 readjustViewport = ->
         sectionHeight = $("body").innerHeight() - $("h1").height() * 2
@@ -67,15 +83,18 @@ $(->
     # readjustViewport()
     loadText()
 
+    if ($("span.subtitle").height() > $("span.title").height())
+            $("span.subtitle").html("Workshop")
+
     # INITIALIZATION: Based on the anchor reference (the HTML's hash
     # tag), we download the instructions and preload the database:
 
     # EVENTS:
     $(window).resize(readjustViewport)
-    $("#run-code").click(runCode)
+    $("#run-code").click(runCode_Button)
     $("#which-text").change(loadText)
-    $("#whitespace").change(runCode)
-    $("#insensitive").change(runCode)
+    $("#whitespace").change(runCode_Button)
+    $("#insensitive").change(runCode_Button)
 
     # Configure the ACE Editor: https:#ace.c9.io
     editor = ace.edit("editor")
@@ -99,7 +118,7 @@ $(->
 
     editorKeyup = ->
         clearTimeout(editorTimer)
-        editorTimer = setTimeout(runCode, delay)
+        editorTimer = setTimeout(runCode_Auto, delay)
 
     $('#editor').bind('input keyup', editorKeyup)
 )

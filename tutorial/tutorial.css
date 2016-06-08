@@ -1,4 +1,23 @@
+html {
+    overflow: auto;
+}
+
 body {
-    font-size: 48px;
+    font-family: lato, sans-serif;
+    font-size: 36px;
     padding: 0px 40px;
+}
+
+pre {
+    margin-left: 40px;
+}
+
+code {
+    color: purple;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.type-this {
+    font-weight: 900;
 }
