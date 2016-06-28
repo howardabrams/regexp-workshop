@@ -18,6 +18,10 @@ code {
     padding-left: 10px;
 }
 
+img {
+    max-width: 100%;
+}
+
 .type-this {
     font-weight: 900;
 }
